@@ -1,67 +1,117 @@
 #include <bits/stdc++.h>
 using namespace std;
-void bfs(unordered_map<int, list<int>> &adj, unordered_map<int, bool> &visited, vector<int> &ans, int node)
+using lli = long long int;
+void print(lli x)
 {
-    queue<int> q;
-    q.push(node);
-    visited[node] = 1;
-
-    while (!q.empty())
+    for (lli i = 63; i >= 0; i--)
     {
-        int frontNode = q.front();
-        q.pop();
-
-        ans.push_back(frontNode);
-        for (auto i : adj[frontNode])
+        cout << ((x >> i) & (1LL));
+    }
+    cout << endl;
+}
+void msb(lli x)
+{
+    if (x == 0)
+    {
+        cout << "-1" << endl;
+        return;
+    }
+    else if (x < 0)
+    {
+        cout << "63" << endl;
+        return;
+    }
+    int cnt = 0;
+    while (1)
+    {
+        if (x != 0)
         {
-            if (!visited[i])
+            cnt++;
+            x = x >> 1;
+        }
+        else
+        {
+            cout << cnt - 1 << endl;
+            return;
+        }
+    }
+}
+void rmb(lli x)
+{
+    if (x == 0)
+    {
+        cout << "-1" << endl;
+        return;
+    }
+    for (int i = 0; i < 64; i++)
+    {
+        if ((x >> i) & 1LL)
+        {
+            cout << i << endl;
+            return;
+        }
+    }
+}
+void is_power(lli x)
+{
+    if (x > 1)
+    {
+        if ((x & (x - 1)) == 0)
+        {
+            cout << "1" << endl;
+        }
+        else
+        {
+            cout << "0" << endl;
+        }
+    }
+    else
+    {
+        cout << "0" << endl;
+    }
+}
+void biggest_power(lli x)
+{
+    if(x==0){
+        cout<<"-1"<<endl;
+        return;
+    }
+    if (x % 2 == 0)
+    {
+        for (int i = 0; i < 64; i++)
+        {
+            if ((x >> i) & 1LL)
             {
-                visited[i] = 1;
-                q.push(i);
+                cout << i << endl;
+                return;
             }
         }
     }
+    else{
+        cout<<"-1"<<endl;
+    }
 }
-void dfs(int node, unordered_map<int, bool> &visited, unordered_map<int, list<int>> &adj, vector<int> &component)
+void solve()
 {
-    stack<int> s;
-    s.push(node);
-    visited[node] = true;
-    while (!s.empty())
-    {
-        int top=s.top();
-        s.pop();
-        visited[top]=true;
-        for(auto i:adj[top]){
-            if(!visited[i]){
-                s.push(i);
-            }
-        }
-    }
-    
-}
-vector<int> BFS(int vertex, vector<pair<int, int>> edges)
-{
-    unordered_map<int, list<int>> adj;
-    unordered_map<int, bool> visited;
-    for (int i = 0; i < edges.size(); i++)
-    {
-        int u = edges[i].first;
-        int v = edges[i].second;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    vector<int> ans;
-    for (int i = 0; i < vertex; i++)
-    {
-        if (!visited[i])
-        {
-
-            bfs(adj, visited, ans, i);
-        }
-    }
+    lli x;
+    cin >> x;
+    print(x);
+    msb(x);
+    rmb(x);
+    is_power(x);
+    biggest_power(x);
 }
 int main()
 {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    cout.tie(0);
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+
     return 0;
 }
